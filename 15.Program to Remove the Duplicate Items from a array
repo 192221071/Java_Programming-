@@ -1,0 +1,21 @@
+def remove_duplicates(arr):
+    non_duplicate_items = []
+    for item in arr:
+        if item not in non_duplicate_items:
+            non_duplicate_items.append(item)
+    return non_duplicate_items
+
+def main():
+    n = int(input("Enter the number of elements in array: "))
+    arr = []
+    for i in range(n):
+        element = int(input("Enter element{}: ".format(i+1)))
+        arr.append(element)
+    
+    non_duplicate_items = remove_duplicates(arr)
+    
+    print("Non-duplicate items:")
+    print(non_duplicate_items)
+
+if __name__ == "__main__":
+    main()
