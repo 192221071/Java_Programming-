@@ -1,0 +1,58 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class Solution {
+    public List<Integer> splitIntoFibonacci(String num) {
+        List<Integer> result = new ArrayList<>();
+        if (num == null || num.length() < 3) {
+            return result;
+        }
+        findFibonacciSequence(num, result, 0);
+        return result;
+    }
+
+    private boolean findFibonacciSequence(String num, List<Integer> result, int index) {
+        if (index == num.length() && result.size() >= 3) {
+            return true;
+        }
+
+        for (int i = index; i < num.length(); i++) {
+            // Avoid numbers with leading zeros
+            if (num.charAt(index) == '0' && i > index) {
+                break;
+            }
+
+            long number = Long.parseLong(num.substring(index, i + 1));
+
+            // If the number is greater than the maximum value for a 32-bit integer, stop
+            if (number > Integer.MAX_VALUE) {
+                break;
+            }
+
+            int size = result.size();
+
+            // If there are at least two numbers in the result list, check if the current number
+            // is the sum of the last two numbers in the list
+            if (size >= 2 && number > result.get(size - 1) + result.get(size - 2)) {
+                break;
+            }
+
+            if (size < 2 || number == result.get(size - 1) + result.get(size - 2)) {
+                result.add((int) number);
+                if (findFibonacciSequence(num, result, i + 1)) {
+                    return true;
+                }
+                result.remove(result.size() - 1);
+            }
+        }
+
+        return false;
+    }
+
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        String num = "1101111";
+        List<Integer> result = solution.splitIntoFibonacci(num);
+        System.out.println(result);
+    }
+}
